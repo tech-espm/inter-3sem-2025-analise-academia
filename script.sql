@@ -14,7 +14,7 @@ USE academia;
 -- topic espm/stainel/hpd/Temperature
 -- {"Temperature":24.30}
 CREATE TABLE pca (
-  id bigint NOT NULL AUTO_INCREMENT,
+  id bigint NOT NULL,
   data datetime NOT NULL,
   id_sensor tinyint NOT NULL,
   delta int NOT NULL, -- O campo delta diz respeito a alterações no valor de pessoas
@@ -31,7 +31,7 @@ CREATE TABLE pca (
 -- topic v3/espm/devices/passage02/up
 -- { "end_device_ids": { "device_id": "passage01" }, "uplink_message": { "rx_metadata": [{ "timestamp": 2040934975 }], "decoded_payload": { "battery": 0, "period_in": 0, "period_out": 0 } } }
 CREATE TABLE passagem (
-  id bigint NOT NULL AUTO_INCREMENT,
+  id bigint NOT NULL,
   data datetime NOT NULL,
   id_sensor tinyint NOT NULL,
   delta int NOT NULL,
