@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h1 class="card-title text-center mb-4" style="color: orange">
+                        Login
+                    </h1>
+                    <div class="alert alert-danger" id="errorMessage" style="display: none;"></div>
+                    <form id="loginForm" class="mb-3">
+                        <div class="form-group">
+                            <label for="username">
+                                Usuário
+                            </label>
+                            <input type="text" class="form-control" id="username" placeholder="Digite seu usuário" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">
+                                Senha
+                            </label>
+                            <input type="password" class="form-control" id="password" placeholder="Digite sua senha" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color: orange; border-color: orange;">
+                            Entrar
+                        </button>
+                    </form>
+                    <a href="/cadastrar" class="text-decoration-none ml-2" style="color: orange; font-weight: 500;"> Cadastrar-se </a>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<script>
+
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault()
+    
+        const username = document.getElementById('username').value
+        const password = document.getElementById('password').value
+        const errorMessage = document.getElementById('errorMessage')
+    
+        // Validação simples (apenas para demonstração)
+        if (username === '' || password === '') {
+            errorMessage.textContent = 'Por favor, preencha todos os campos.'
+            errorMessage.style.display = 'block'
+            return
+        }
+    
+      // Simulação de login bem-sucedido
+        if (username === 'admin' && password === '1234') {
+            errorMessage.style.display = 'none'
+            alert('Login bem-sucedido! Redirecionando...')
+            // Aqui você redirecionaria para a página principal
+            // window.location.href = 'pagina-principal.html';
+        } else {
+            errorMessage.textContent = 'Usuário ou senha incorretos.'
+            errorMessage.style.display = 'block'
+        }
+    })
+
+</script>
+
+<style>
+
+    body {
+        background-color: #e6f2ff; /* Azul claro */
+    }
+    
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background-color: darkorange !important;
+        border-color: darkorange !important;
+    }
+
+</style>
+
+{% endblock %}

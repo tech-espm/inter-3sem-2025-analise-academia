@@ -38,6 +38,8 @@
 			https://getbootstrap.com/docs/4.6/components/navbar/
 		-->
 
+		{% if not esconder_layout %}
+
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="/">
 				Projeto
@@ -54,11 +56,15 @@
 			</div>
 		</nav>
 
+		{% endif %}
+
 		<div class="conteudo">
 
 			{% block body %}{% endblock %}
 
 		</div>
+
+		{% if not esconder_layout %}
 
 		<div class="rodape">
 			<a class="link-rodape" href="https://sistemasdeinformacao.espm.edu.br" target="_blank">
@@ -67,6 +73,8 @@
 				<img src="/static/img/logo-si-512.png" style="width: 100%; max-width: 150px;" />
 			</a>
 		</div>
+
+		{% endif %}
 
 		{% block rodape %}{% endblock %}
 
