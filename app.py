@@ -18,6 +18,10 @@ def sobre():
 def login():
     return render_template('index/login.html', titulo='Login', esconder_layout=True)
 
+@app.get('/cadastrar')
+def cadastrar():
+    return render_template('index/cadastrar.html', titulo='Cadastrar', esconder_layout=True)
+
 @app.get('/obterDados')
 def obterDados():
     # Obter o maior id do banco

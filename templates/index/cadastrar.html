@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-md-6">
+            <div class="card shadow cadastro-card">
+                <div class="card-body p-4">
+
+                    <div class="alert alert-danger" id="errorMessage" style="display: none;"></div>
+                    <div class="alert alert-success" id="successMessage" style="display: none;"></div>
+          
+                    <form id="cadastroForm">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nome">
+                                    Nome
+                                </label>
+                                <input type="text" class="form-control" id="nome" placeholder="Seu nome" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="sobrenome">
+                                    Sobrenome
+                                </label>
+                                <input type="text" class="form-control" id="sobrenome" placeholder="Seu sobrenome" required>
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="email">
+                                E-mail
+                            </label>
+                            <input type="email" class="form-control" id="email" placeholder="exemplo@email.com" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="razao-social">
+                                    Razão Social
+                                </label>
+                                <input type="text" class="form-control" id="razao-social" placeholder="Razão social da empresa" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cnpj-empresa">
+                                    CNPJ
+                                </label>
+                                <input type="text" class="form-control" id="cnpj-empresa" placeholder="CNPJ" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="endereco-empresa">
+                                Endereço da Empresa
+                            </label>
+                            <input type="text" class="form-control" id="endereco-empresa" placeholder="Endereço da sua empresa" required>
+                        </div>
+            
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="senha">
+                                    Senha
+                                </label>
+                                <input type="password" class="form-control" id="senha" placeholder="Crie uma senha" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="confirmarSenha">
+                                    Confirmar senha
+                                </label>
+                                <input type="password" class="form-control" id="confirmarSenha" placeholder="Confirme a senha" required>
+                            </div>
+                        </div>
+            
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="termos" required>
+                            <label class="form-check-label" for="termos">
+                                Eu concordo com os
+                                <a href="/termos" style="color: darkorange;">
+                                    Termos de Serviço
+                                </a>
+                            </label>
+                        </div>
+            
+                        <button type="submit" style="background-color: orange; border-color: orange;" class="btn btn-primary btn-block">
+                            Criar conta
+                        </button>
+            
+                        <div class="text-center mt-3">
+                            <p>
+                                Já tem uma conta? 
+                                <a href="/login" style="color: darkorange;">
+                                    Faça login
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/pages/cadastrar.js"></script>
+
+<style>
+    body {
+        background-color: #e6f2ff; 
+    }
+</style>
+
+{% endblock %}

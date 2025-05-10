@@ -33,3 +33,23 @@ html, body {
 	color: white;
 	text-decoration: none;
 }
+
+.card {
+        border-radius: 10px;
+        border: none;
+    }
+    
+.btn-primary:hover {
+    background-color: darkorange !important;
+    border-color: darkorange !important;
+}
+
+.cadastrar-hover:hover {
+	text-decoration: underline !important;
+}
+
+.cadastro-card {
+        border-radius: 10px;
+        border: none;
+		margin: 10px;
+    }

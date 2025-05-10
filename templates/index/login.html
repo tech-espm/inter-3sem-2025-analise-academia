@@ -1,5 +1,7 @@
 {% extends 'layout.html' %}
 
+{% block title %} Login {% endblock %}
+
 {% block body %}
 
 <div class="container">
@@ -11,12 +13,13 @@
                         Login
                     </h1>
                     <div class="alert alert-danger" id="errorMessage" style="display: none;"></div>
+                    <div class="alert alert-success" id="successMessage" style="display: none;"></div>
                     <form id="loginForm" class="mb-3">
                         <div class="form-group">
-                            <label for="username">
-                                Usuário
+                            <label for="email">
+                                Email
                             </label>
-                            <input type="text" class="form-control" id="username" placeholder="Digite seu usuário" required />
+                            <input type="text" class="form-control" id="email" placeholder="Digite seu email" required />
                         </div>
 
                         <div class="form-group">
@@ -30,59 +33,21 @@
                             Entrar
                         </button>
                     </form>
-                    <a href="/cadastrar" class="text-decoration-none ml-2" style="color: orange; font-weight: 500;"> Cadastrar-se </a>
+                    <a href="/cadastrar" class="ml-2 cadastrar-hover" style="color: darkorange;">
+                        Cadastrar-se
+                    </a>
                 </div>
             </div>
         </div>
     </div> 
 </div>
 
-<script>
-
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
-        e.preventDefault()
-    
-        const username = document.getElementById('username').value
-        const password = document.getElementById('password').value
-        const errorMessage = document.getElementById('errorMessage')
-    
-        // Validação simples (apenas para demonstração)
-        if (username === '' || password === '') {
-            errorMessage.textContent = 'Por favor, preencha todos os campos.'
-            errorMessage.style.display = 'block'
-            return
-        }
-    
-      // Simulação de login bem-sucedido
-        if (username === 'admin' && password === '1234') {
-            errorMessage.style.display = 'none'
-            alert('Login bem-sucedido! Redirecionando...')
-            // Aqui você redirecionaria para a página principal
-            // window.location.href = 'pagina-principal.html';
-        } else {
-            errorMessage.textContent = 'Usuário ou senha incorretos.'
-            errorMessage.style.display = 'block'
-        }
-    })
-
-</script>
+<script type="text/javascript" src="/static/js/pages/login.js"></script>
 
 <style>
-
     body {
-        background-color: #e6f2ff; /* Azul claro */
+        background-color: #e6f2ff;
     }
-    
-    .card {
-        border-radius: 10px;
-        border: none;
-    }
-    
-    .btn-primary:hover {
-        background-color: darkorange !important;
-        border-color: darkorange !important;
-    }
-
 </style>
 
 {% endblock %}
