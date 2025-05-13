@@ -6,9 +6,9 @@ from datetime import datetime
 app = Flask(__name__)
 
 @app.get('/')
-def index():
+def dashboard():
     hoje = datetime.today().strftime('%Y-%m-%d')
-    return render_template('index/index.html', hoje=hoje)
+    return render_template('index/dashboard.html', hoje=hoje)
 
 @app.get('/sobre')
 def sobre():
@@ -21,6 +21,10 @@ def login():
 @app.get('/cadastrar')
 def cadastrar():
     return render_template('index/cadastrar.html', titulo='Cadastrar', esconder_layout=True)
+
+@app.get('/adm-log')
+def admLog():
+    return render_template('index/adm-log.html', titulo="Adm Logs")
 
 @app.get('/obterDados')
 def obterDados():

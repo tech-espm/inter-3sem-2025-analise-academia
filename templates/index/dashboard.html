@@ -1,0 +1,138 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="filter-section">
+    <h4 class="mb-4">Filtros de Análise</h4>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="periodo">Período</label>
+                <select class="form-control" id="periodo">
+                    <option>Últimos 7 dias</option>
+                    <option>Últimos 30 dias</option>
+                    <option>Últimos 90 dias</option>
+                    <option>Personalizado</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="zona">Zona da Academia</label>
+                <select class="form-control" id="zona">
+                    <option>Todas as zonas</option>
+                    <option>Zona 1 - Cardio</option>
+                    <option>Zona 2 - Musculação</option>
+                    <option>Zona 3 - Funcional</option>
+                    <option>Zona 4 - Alongamento</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="horario">Horário</label>
+                <select class="form-control" id="horario">
+                    <option>Todos os horários</option>
+                    <option>Manhã (6h-12h)</option>
+                    <option>Tarde (12h-18h)</option>
+                    <option>Noite (18h-23h)</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-primary btn-block">Aplicar Filtros</button>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card-index text-center p-3">
+            <div class="big-number-label">Total de Visitas</div>
+            <div class="big-number">1,248</div>
+            <small class="text-success"><i class="fas fa-arrow-up"></i> 12% em relação ao período anterior</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-index text-center p-3">
+            <div class="big-number-label">Zona Mais Movimentada</div>
+            <div class="big-number">Zona 2</div>
+            <small>Musculação - 35% do total</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-index text-center p-3">
+            <div class="big-number-label">Horário de Pico</div>
+            <div class="big-number">18h-20h</div>
+            <small>28% das visitas diárias</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-index text-center p-3">
+            <div class="big-number-label">Taxa de Ocupação</div>
+            <div class="big-number">68%</div>
+            <small class="text-warning"><i class="fas fa-arrow-down"></i> 5% em relação ao período anterior</small>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card-index">
+            <div class="card-header">
+                Movimentação por Zona (últimos 7 dias)
+            </div>
+            <div class="card-body">
+                <canvas id="zonaChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-index">
+            <div class="card-header">
+                Distribuição por Zona
+            </div>
+            <div class="card-body">
+                <canvas id="pieChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card-index">
+            <div class="card-header">
+                Padrão de Uso por Horário
+            </div>
+            <div class="card-body">
+                <canvas id="horarioChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card-index">
+            <div class="card-header">
+                Tendência de Ocupação
+            </div>
+            <div class="card-body">
+                <canvas id="tendenciaChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/pages/dashboard.js"></script>
+
+<style>
+
+    body {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+</style>    
+
+{% endblock %}

@@ -2,7 +2,8 @@ img {
 	max-width: 100%;
 }
 
-html, body {
+html,
+body {
 	/* Para fazer o rodapé ficar sempre na parte inferior da página ;) */
 	min-height: 100vh;
 }
@@ -23,25 +24,16 @@ html, body {
 	flex: 1 1 auto;
 }
 
-.rodape {
-	text-align: center;
-	background-color: black;
-	padding: 2rem;
-}
-
-.link-rodape, .link-rodape:hover {
-	color: white;
-	text-decoration: none;
-}
+/* Página login.html e cadastrar.html */
 
 .card {
-        border-radius: 10px;
-        border: none;
-    }
-    
+	border-radius: 10px;
+	border: none;
+}
+
 .btn-primary:hover {
-    background-color: darkorange !important;
-    border-color: darkorange !important;
+	background-color: darkorange !important;
+	border-color: darkorange !important;
 }
 
 .cadastrar-hover:hover {
@@ -49,7 +41,55 @@ html, body {
 }
 
 .cadastro-card {
-        border-radius: 10px;
-        border: none;
-		margin: 10px;
-    }
+	border-radius: 10px;
+	border: none;
+	margin: 10px;
+}
+
+/* Página index.html */
+
+.main-content {
+	flex: 1;
+	padding: 30px 0;
+}
+
+.card-index {
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+	transition: transform 0.3s, box-shadow 0.3s;
+	margin-bottom: 20px;
+	min-height: 165px;
+}
+
+.card-index:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+	background-color: white;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	font-weight: 600;
+}
+
+.big-number {
+	font-size: 2.5rem;
+	font-weight: 700;
+	color: var(--primary-color);
+}
+
+.big-number-label {
+	color: #6c757d;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.filter-section {
+	background-color: white;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+	margin-bottom: 30px;
+}
