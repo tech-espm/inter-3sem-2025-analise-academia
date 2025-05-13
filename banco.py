@@ -80,3 +80,46 @@ def criarPessoa(nome, email):
 
 # Para mais informações:
 # https://docs.sqlalchemy.org/en/14/tutorial/dbapi_transactions.html
+
+def obterIdMaximo(tabela):
+	with Session(engine) as sessao:
+		registro = sessao.execute(text(f"SELECT MAX(id) id FROM {tabela}")).first()
+
+		if registro == None or registro.id == None:
+			return 0
+		else:
+			return registro.id
+
+def inserirDadosPCA(registros):
+	with Session(engine) as sessao, sessao.begin():
+		for registro in registros:
+			sessao.execute(text("INSERT INTO pca (id, data, id_sensor, delta, pessoas, luminosidade, umidade, temperatura) VALUES (:id, :data, :id_sensor, :delta, :pessoas, :luminosidade, :umidade, :temperatura)"), registro)
+
+def listarDadosTempoReal():
+	with Session(engine) as sessao:
+		registros = sessao.execute(text("""
+(select id_sensor, pessoas, date_format(data, '%d/%m/%Y %H:%i:%s') data from pca where id_sensor = 1 order by id desc limit 1)
+union all
+(select id_sensor, pessoas, date_format(data, '%d/%m/%Y %H:%i:%s') data from pca where id_sensor = 2 order by id desc limit 1)
+union all
+(select id_sensor, pessoas, date_format(data, '%d/%m/%Y %H:%i:%s') data from pca where id_sensor = 3 order by id desc limit 1)
+union all
+(select id_sensor, pessoas, date_format(data, '%d/%m/%Y %H:%i:%s') data from pca where id_sensor = 4 order by id desc limit 1)
+union all
+(select id_sensor, pessoas, date_format(data, '%d/%m/%Y %H:%i:%s') data from pca where id_sensor = 5 order by id desc limit 1)
+union all
+(select id_sensor, pessoas, date_format(data, '%d/%m/%Y %H:%i:%s') data from pca where id_sensor = 6 order by id desc limit 1)
+union all
+(select id_sensor, pessoas, date_format(data, '%d/%m/%Y %H:%i:%s') data from pca where id_sensor = 7 order by id desc limit 1)
+union all
+(select id_sensor, pessoas, date_format(data, '%d/%m/%Y %H:%i:%s') data from pca where id_sensor = 8 order by id desc limit 1)
+;
+"""))
+		dados = []
+		for registro in registros:
+			dados.append({
+				"id_sensor": registro.id_sensor,
+				"pessoas": registro.pessoas,
+				"data": registro.data
+			})
+		return dados

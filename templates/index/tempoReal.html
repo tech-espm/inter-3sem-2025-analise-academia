@@ -1,0 +1,136 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="card shadow my-4">
+	<div class="card-body" id="div-heatmap"></div>
+	<div>
+		<label for="chkRandom"><input type="checkbox" id="chkRandom" /> Simular Dados Aleatórios</label>
+	</div>
+</div>
+
+<script type="text/javascript">
+	"use strict";
+
+	function relativeLuminance(rgb) {
+		if ((typeof rgb) === "string")
+			rgb = parseInt(rgb.replace("#", ""), 16);
+		rgb |= 0;
+		if (rgb < 0)
+			return 1;
+		//http://www.w3.org/TR/2007/WD-WCAG20-TECHS-20070517/Overview.html#G18
+		var RsRGB = ((rgb >>> 16) & 0xff) / 255.0,
+			GsRGB = ((rgb >>> 8) & 0xff) / 255.0,
+			BsRGB = (rgb & 0xff) / 255.0,
+			R, G, B;
+		if (RsRGB <= 0.03928) R = RsRGB / 12.92; else R = Math.pow((RsRGB + 0.055) / 1.055, 2.4);
+		if (GsRGB <= 0.03928) G = GsRGB / 12.92; else G = Math.pow((GsRGB + 0.055) / 1.055, 2.4);
+		if (BsRGB <= 0.03928) B = BsRGB / 12.92; else B = Math.pow((BsRGB + 0.055) / 1.055, 2.4);
+		return (0.2126 * R) + (0.7152 * G) + (0.0722 * B);
+	}
+
+	function textColorForBackground(i) {
+		return (relativeLuminance(i) < 0.4) ? "#ffffff" : "#000000";
+	}
+
+	function coresHeatmap(perc) {
+		const r0 = 0xff;
+		const g0 = 0xff;
+		const b0 = 0xff;
+		const r1 = 0xff;
+		const g1 = 0xcc;
+		const b1 = 0x00;
+		let r = Math.max(0, Math.min(255, ((perc * r1) + ((1 - perc) * r0)) | 0)).toString(16);
+		let g = Math.max(0, Math.min(255, ((perc * g1) + ((1 - perc) * g0)) | 0)).toString(16);
+		let b = Math.max(0, Math.min(255, ((perc * b1) + ((1 - perc) * b0)) | 0)).toString(16);
+		if (r.length < 2) r = "0" + r;
+		if (g.length < 2) g = "0" + g;
+		if (b.length < 2) b = "0" + b;
+		const corFundo = "#" + r + g + b;
+		const corTexto = textColorForBackground(corFundo);
+		return `background-color: ${corFundo}; color: ${corTexto};`;
+	}
+
+	function format2(x) {
+		return (x < 10 ? "0" + x : x.toString());
+	}
+
+	async function atualizarDados() {
+		try {
+			let response = await fetch("/obterTempoReal");
+
+			if (response.ok) {
+				Swal.close();
+
+				const dados = await response.json();
+				if (!dados || !dados.length) {
+					Swal.fire("Erro", "Sem dados!", "error");
+					return;
+				}
+
+				const colunas = ["Local", "Pessoas", "Data"];
+
+				const agora = new Date();
+
+				let html = [`
+				<h1>Atualizado às ${format2(agora.getHours())}:${format2(agora.getMinutes())}:${format2(agora.getSeconds())}</h1>
+				<table class="table table-bordered table-sm w-50 mx-auto" style="height: auto; line-height: 1.2;"><thead><tr>
+				`];
+				for (let i = 0; i < colunas.length; i++) {
+					html.push(`<th>${colunas[i]}</th>`);
+				}
+
+				html.push(`
+					</tr>
+					</thead>
+					<tbody>
+				`);
+
+				const random = document.getElementById("chkRandom").checked;
+				if (random)
+					dados[0].pessoas += ((Math.random() * 20) | 0);
+
+				let menor = dados[0].pessoas;
+				let maior = menor;
+
+				for (let i = 1; i < dados.length; i++) {
+					const dado = dados[i];
+					if (random)
+						dado.pessoas += (Math.random() * 20) | 0;
+					if (menor > dado.pessoas)
+						menor = dado.pessoas;
+					if (maior < dado.pessoas)
+						maior = dado.pessoas;
+				}
+
+				let delta = (maior - menor) || 1;
+
+				for (let i = 0; i < dados.length; i++) {
+					const dado = dados[i];
+					html.push(`<tr><td>Local ${dado.id_sensor}</td>`);
+
+					let n = (dado.pessoas - menor) / delta;
+					html.push(`<td style="${coresHeatmap(n)}">${dado.pessoas}</td>`);
+
+					html.push(`<td>${dado.data}</td></tr>`);
+				}
+
+				html.push(`</tbody></table>`);
+				document.getElementById("div-heatmap").innerHTML = html.join('');
+
+			} else {
+				await exibirErro(response);
+			}
+		} catch (ex) {
+			await Swal.fire("Erro", "Erro ao listar os dados: " + ex.message, "error");
+		}
+
+		setTimeout(atualizarDados, 1000);
+	}
+
+	waitSwal();
+
+	atualizarDados();
+</script>
+
+{% endblock %}
