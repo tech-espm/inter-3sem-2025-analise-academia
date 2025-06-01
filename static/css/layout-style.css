@@ -1,3 +1,143 @@
+/* ABC Favorit Regular */
+@font-face {
+  font-family: 'ABC Favorit';
+  src: url('/static/fonts/ABCFavorit-Regular-Trial.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ABC Favorit Bold */
+@font-face {
+  font-family: 'ABC Favorit Bold';
+  src: url('/static/fonts/ABCFavorit-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* ABC Favorit Mono Book */
+@font-face {
+  font-family: 'ABC Favorit Mono';
+  src: url('/static/fonts/ABCFavoritMono-Book.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ABC Favorit Mono Book Italic */
+@font-face {
+  font-family: 'ABC Favorit Mono';
+  src: url('/static/fonts/ABCFavoritMono-BookItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* ABC Favorit Mono Bold */
+@font-face {
+  font-family: 'ABC Favorit Mono';
+  src: url('/static/fonts/ABCFavoritMono-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* ABC Favorit Mono Bold Italic */
+@font-face {
+  font-family: 'ABC Favorit Mono';
+  src: url('/static/fonts/ABCFavoritMono-BoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* SK Modernist Regular */
+@font-face {
+  font-family: 'SK Modernist';
+  src: url('/static/fonts/Sk-Modernist-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video {
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline
+}
+
+
+body {
+  font-family: 'ABC Favorit', sans-serif;
+}
+/* 
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding-left: 2rem;
+    border-bottom: 1px solid black;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+    margin-right: 1.5rem;
+    font-weight: 400;
+}
+
+.navbar a:last-child {
+    margin-right: 0;
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+.navbar-left, .navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right .btn {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 0;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.navbar-right .btn:hover {
+    background-color: black;
+    color: white;
+} */
+
+
+nav .btn {
+    transition: background-color 0.2s, color 0.2s;
+}
+
+nav .btn:hover {
+    background-color: #FFF100 !important;
+    color: black !important;
+} 
+
+#links a {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+#links a:hover {
+  border-color: black;
+}
+
+
+
+
+
 .navbar {
     background-color: var(--primary-color) !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -5,19 +145,20 @@
 
 .navbar-brand {
     font-weight: 700;
-    color: white !important;
+    /* color: white !important; */
+    color: #000 !important;
     font-size: 1.5rem;
 }
 
 .nav-link {
-    color: rgba(255, 255, 255, 0.8) !important;
+    /* color: rgba(255, 255, 255, 0.8) !important; */
     font-weight: 500;
     margin: 0 10px;
     transition: all 0.3s;
 }
 
 .nav-link:hover {
-    color: white !important;
+    /* color: white !important; */
     transform: translateY(-2px);
 }
 
@@ -29,6 +170,6 @@
 
 .link-rodape,
 .link-rodape:hover {
-	color: white;
+	/* color: white; */
 	text-decoration: none;
 }
