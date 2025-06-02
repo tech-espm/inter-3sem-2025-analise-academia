@@ -9,7 +9,7 @@ img {
 html,
 body {
 	/* Para fazer o rodapé ficar sempre na parte inferior da página ;) */
-	/* min-height: 100vh; */
+	min-height: 100vh; 
 	background: #fff;
     color: #000;
     letter-spacing: -.008rem;
@@ -17,8 +17,8 @@ body {
 }
 
 .limitador {
-	/* max-width: 1200px; */
-	margin: 0px auto;
+	max-width: 1200px;
+	margin: 50px auto;
 
 	/* Para fazer o rodapé ficar sempre na parte inferior da página ;) */
 	min-height: 100vh;
@@ -54,7 +54,7 @@ body {
 	margin: 10px;
 }
 
-/* Página index.html */
+/* Página dashboard.html */
 
 .main-content {
 	flex: 1;
