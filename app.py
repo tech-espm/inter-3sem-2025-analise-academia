@@ -6,10 +6,15 @@ import banco
 
 app = Flask(__name__)
 
-@app.get('/')
+@app.get('/dashboard')
 def dashboard():
     hoje = datetime.today().strftime('%Y-%m-%d')
     return render_template('index/dashboard.html', hoje=hoje)
+
+@app.get('/')
+def index():
+    hoje = datetime.today().strftime('%Y-%m-%d')
+    return render_template('index/index.html', hoje=hoje)
 
 @app.get('/sobre')
 def sobre():
