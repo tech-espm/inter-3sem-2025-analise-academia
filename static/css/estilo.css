@@ -85,6 +85,7 @@ body {
 	font-size: 2.5rem;
 	font-weight: 700;
 	color: var(--primary-color);
+	font-family: "SK Modernist", sans-serif;	
 }
 
 .big-number-label {
