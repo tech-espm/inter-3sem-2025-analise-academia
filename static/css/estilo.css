@@ -101,3 +101,108 @@ body {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 	margin-bottom: 30px;
 }
+
+
+
+
+.hero-section {
+  background-color: #fff;
+  min-height: 80vh; /* altura mínima para destacar a área */
+}
+
+.hero-text {
+  max-width: 600px;
+  z-index: 10; /* fica acima das moedas */
+}
+
+.hero-section .btn {
+  border: 2px solid black;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.hero-section .btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 3px 3px 0px black;
+}
+
+
+.coins-container {
+  pointer-events: none;
+  z-index: 1;
+}
+
+.coin {
+  position: absolute;
+  font-size: 4rem;     
+  transform-origin: center center;
+  transition: transform 0.1s ease-out;
+  user-select: none;
+  pointer-events: none;
+}
+
+
+@media (max-width: 768px) {
+  .coin {
+    font-size: 1.5rem;
+  }
+}
+
+
+#features h3{
+	color: #FFC900;
+}
+
+
+.underline-grow {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+}
+
+.underline-grow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;       /* altura da barra */
+  width: 0;
+  background-color: black;
+  transition: width 0.3s ease;
+}
+
+.underline-grow:hover::after {
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

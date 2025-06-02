@@ -23,7 +23,6 @@
 	<link rel="stylesheet" type="text/css" href="/static/css/layout-style.css" />
 
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
-	<script type="text/javascript" src="/static/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript" src="/static/js/jquery-validate/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="/static/js/jquery-validate/additional-methods.min.js"></script>
 	<script type="text/javascript" src="/static/js/jquery-validate/localization/messages_pt_BR.min.js"></script>
@@ -78,16 +77,17 @@
 		<!-- </nav> -->
 
 
-<nav class="d-flex justify-content-between align-items-center border-bottom bg-white fs-5">
+<nav class="navbar-desktop fixed-top d-none d-lg-flex justify-content-between align-items-center border-bottom bg-white fs-5">
+
   <div class="d-flex align-items-center">
     <a class="fw-bold fs-1 text-black text-decoration-none  px-4" href="#">CoreFlow</a>
   </div>
   <div class="d-flex align-items-center gap-3">
 	<div id="links">
-<a class="text-black text-decoration-none py-2 px-3 nav-link-hover" href="#">Overview</a>
-<a class="text-black text-decoration-none py-2 px-3 nav-link-hover" href="#">Blog</a>
-<a class="text-black text-decoration-none py-2 px-3 nav-link-hover" href="#">Features</a>
-<a class="text-white text-decoration-none bg-dark py-2 px-3 nav-link-hover" href="#">About Us</a>
+<a class="text-black text-decoration-none py-2 px-3" href="#">Overview</a>
+<a class="text-black text-decoration-none py-2 px-3" href="#">Blog</a>
+<a class="text-black text-decoration-none py-2 px-3" href="#">Features</a>
+<a class="text-white text-decoration-none bg-dark py-2 px-3" href="#">About Us</a>
 	</div>
 	<div class="d-flex align-items-center border-start ">		
 		<a class="btn rounded-0 px-3 fw-normal fs-5 py-4" href="#">Log in</a>
@@ -95,6 +95,28 @@
 	</div>
   </div>
 </nav>
+
+<nav class="navbar fixed-top navbar-expand-lg bg-white border-bottom d-lg-none">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold fs-1 text-black" href="#">CoreFlow</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobile">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMobile">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li><a class="nav-link text-black" href="#">Overview</a></li>
+        <li><a class="nav-link text-black" href="#">Blog</a></li>
+        <li><a class="nav-link text-black" href="#">Features</a></li>
+        <li><a class="nav-link text-white bg-dark rounded px-2" href="#">About Us</a></li>
+      </ul>
+      <div class="d-flex">
+        <a class="btn rounded-0 px-3 fw-normal fs-5 py-2 me-2" href="#">Log in</a>
+        <a class="btn text-white bg-dark rounded-0 px-3 fw-normal fs-5 py-2" href="#">Start analysis</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
 
 
 		{% endif %}
@@ -107,7 +129,8 @@
 
 		{% if not esconder_layout %}
 
-		<footer class="rodape" style="display: none;">
+		<!-- style="display: none;" -->
+		<footer class="rodape text-white">
 			<div class="container text-center">
 				<p class="mb-0">&copy; 2023 CoreFlow Analytics. Todos os direitos reservados.</p>
 				<p class="mb-0 small">Versão 1.0.0</p>
@@ -121,5 +144,6 @@
 	</div>
 
 </body>
+<script type="text/javascript" src="/static/js/bootstrap.bundle.min.js"></script>
 
 </html>

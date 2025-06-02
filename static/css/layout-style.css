@@ -115,33 +115,29 @@ body {
 } */
 
 
+
 nav .btn {
     transition: background-color 0.2s, color 0.2s;
 }
 
 nav .btn:hover {
-    background-color: #FFF100 !important;
+    background-color: #FFC900 !important;
     color: black !important;
 } 
 
-#links a {
+nav #links a {
   border: 1px solid transparent;
   border-radius: 999px;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-#links a:hover {
+nav #links a:hover {
   border-color: black;
 }
 
 
 
 
-
-.navbar {
-    background-color: var(--primary-color) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
 
 .navbar-brand {
     font-weight: 700;
