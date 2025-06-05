@@ -48,6 +48,16 @@ def obterTempoReal():
     if dados_novos and len(dados_novos) > 0:
         banco.inserirDadosPCA(dados_novos)
 
+    # Obter o maior id do banco
+    maior_id = banco.obterIdMaximo("passagem")
+
+    resultado = requests.get(f'{config.url_api}?sensor=passage&id_inferior={maior_id}')
+    dados_novos = resultado.json()
+
+	# Inserir os dados novos no banco
+    if dados_novos and len(dados_novos) > 0:
+        banco.inserirDadosPassagem(dados_novos)
+
 	# Trazer os dados do banco
     dados = banco.listarDadosTempoReal()
 

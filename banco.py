@@ -95,6 +95,11 @@ def inserirDadosPCA(registros):
 		for registro in registros:
 			sessao.execute(text("INSERT INTO pca (id, data, id_sensor, delta, pessoas, luminosidade, umidade, temperatura) VALUES (:id, :data, :id_sensor, :delta, :pessoas, :luminosidade, :umidade, :temperatura)"), registro)
 
+def inserirDadosPassagem(registros):
+	with Session(engine) as sessao, sessao.begin():
+		for registro in registros:
+			sessao.execute(text("INSERT INTO passagem (id, data, id_sensor, delta, bateria, entrada, saida) VALUES (:id, :data, :id_sensor, :delta, :bateria, :entrada, :saida)"), registro)
+
 def listarDadosTempoReal():
 	with Session(engine) as sessao:
 		registros = sessao.execute(text("""
@@ -121,5 +126,79 @@ union all
 				"id_sensor": registro.id_sensor,
 				"pessoas": registro.pessoas,
 				"data": registro.data
+			})
+		return dados
+
+def listarConsolidadoOcupacaoMaxima(data_inicial, data_final):
+	with Session(engine) as sessao:
+		parametros = {
+			'data_inicial': data_inicial + ' 00:00:00',
+			'data_final': data_final + ' 23:59:59'
+		}
+
+		registros = sessao.execute(text("""
+select tmp.id_sensor, tmp.dia, tmp.hora, tmp.pessoas, u.pessoas ultimo_pessoas from
+(
+	select id_sensor, date_format(date(data), '%d/%m/%Y') dia, extract(hour from data) hora, cast(max(pessoas) as signed) pessoas, cast(max(id) as signed) id_ultimo
+	from pca
+	where data between :data_inicial and :data_final
+	group by id_sensor, dia, hora
+	order by id_sensor, dia, hora
+) tmp
+inner join pca u on u.id = tmp.id_ultimo
+"""))
+		dados = []
+		for registro in registros:
+			dados.append({
+				"id_sensor": registro.id_sensor,
+				"dia": registro.dia,
+				"hora": registro.hora,
+				"pessoas": registro.pessoas,
+				"id_ultimo": registro.id_ultimo
+			})
+		return dados
+
+def listarConsolidadoDiaMesHora(data_inicial, data_final):
+	with Session(engine) as sessao:
+		parametros = {
+			'data_inicial': data_inicial + ' 00:00:00',
+			'data_final': data_final + ' 23:59:59'
+		}
+
+		registros = sessao.execute(text("""
+select date_format(date(data), '%d/%m/%Y') dia, extract(hour from data) hora, cast(sum(entrada) as signed) entrada
+from passagem
+where data between :data_inicial and :data_final
+and id_sensor = 2
+group by dia, hora
+"""))
+		dados = []
+		for registro in registros:
+			dados.append({
+				"dia": registro.dia,
+				"hora": registro.hora,
+				"entrada": registro.entrada
+			})
+		return dados
+
+def listarConsolidadoDiaMes(data_inicial, data_final):
+	with Session(engine) as sessao:
+		parametros = {
+			'data_inicial': data_inicial + ' 00:00:00',
+			'data_final': data_final + ' 23:59:59'
+		}
+
+		registros = sessao.execute(text("""
+select date_format(date(data), '%d/%m/%Y') dia, sum(entrada) entrada
+from passagem
+where data between :data_inicial and :data_final
+and id_sensor = 2
+group by dia
+"""))
+		dados = []
+		for registro in registros:
+			dados.append({
+				"dia": registro.dia,
+				"entrada": registro.entrada
 			})
 		return dados
