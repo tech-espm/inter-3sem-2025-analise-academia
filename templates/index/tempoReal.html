@@ -1,11 +1,32 @@
 {% extends 'layout.html' %}
 
+{% block head %}
+<style type="text/css">
+	body {
+		background-image: url('/static/img/fundo.jpg');
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
+
+</style>
+{% endblock %}
+
 {% block body %}
 
-<div class="card shadow my-4">
-	<div class="card-body" id="div-heatmap"></div>
-	<div>
-		<label for="chkRandom"><input type="checkbox" id="chkRandom" /> Simular Dados Aleatórios</label>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
+			<div class="card shadow my-4">
+				<div class="card-body">
+					<div id="div-heatmap"></div>
+					<div class="text-center">
+						<label for="chkRandom"><input type="checkbox" id="chkRandom" /> Simular Dados Aleatórios</label>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -68,16 +89,16 @@
 					return;
 				}
 
-				const colunas = ["Local", "Pessoas", "Data"];
+				const colunas = ["Local", "Pessoas", "Última Alteração"];
 
 				const agora = new Date();
 
 				let html = [`
-				<h1>Atualizado às ${format2(agora.getHours())}:${format2(agora.getMinutes())}:${format2(agora.getSeconds())}</h1>
-				<table class="table table-bordered table-sm w-50 mx-auto" style="height: auto; line-height: 1.2;"><thead><tr>
+				<h1 class="text-center mb-3">Atualizado às ${format2(agora.getHours())}:${format2(agora.getMinutes())}:${format2(agora.getSeconds())}</h1>
+				<table class="table table-bordered table-sm mx-auto" style="height: auto; line-height: 1.2;"><thead><tr>
 				`];
 				for (let i = 0; i < colunas.length; i++) {
-					html.push(`<th>${colunas[i]}</th>`);
+					html.push(`<th class="text-center">${colunas[i]}</th>`);
 				}
 
 				html.push(`
@@ -107,12 +128,12 @@
 
 				for (let i = 0; i < dados.length; i++) {
 					const dado = dados[i];
-					html.push(`<tr><td>Local ${dado.id_sensor}</td>`);
+					html.push(`<tr><td class="text-center">Local ${dado.id_sensor}</td>`);
 
 					let n = (dado.pessoas - menor) / delta;
-					html.push(`<td style="${coresHeatmap(n)}">${dado.pessoas}</td>`);
+					html.push(`<td class="text-center" style="${coresHeatmap(n)}">${dado.pessoas}</td>`);
 
-					html.push(`<td>${dado.data}</td></tr>`);
+					html.push(`<td class="text-center">${dado.data}</td></tr>`);
 				}
 
 				html.push(`</tbody></table>`);

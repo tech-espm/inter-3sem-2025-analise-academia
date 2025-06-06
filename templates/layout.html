@@ -77,16 +77,16 @@
 		<!-- </nav> -->
 
 
-<nav class="navbar-desktop fixed-top d-none d-lg-flex justify-content-between align-items-center border-bottom bg-white fs-5">
+<nav class="navbar-desktop d-none d-lg-flex justify-content-between align-items-center border-bottom bg-white fs-5">
 
   <div class="d-flex align-items-center">
     <a class="fw-bold fs-1 text-black text-decoration-none  px-4" href="/">CoreFlow</a>
   </div>
   <div class="d-flex align-items-center gap-3">
 	<div id="links">
-<a class="text-black text-decoration-none py-2 px-3" href="/">Main</a>
-<a class="text-black text-decoration-none py-2 px-3" href="{{ url_for('tempoReal') }}">Heatmap</a>
-<a class="text-white text-decoration-none bg-dark py-2 px-3" href="{{ url_for('sobre') }}">About Us</a>
+<a class="text-black text-decoration-none py-2 px-3" href="/">Início</a>
+<a class="text-black text-decoration-none py-2 px-3" href="{{ url_for('tempoReal') }}">Tempo Real</a>
+<a class="text-white text-decoration-none bg-dark py-2 px-3" href="{{ url_for('sobre') }}">Sobre</a>
 	</div>
 	<div class="d-flex align-items-center border-start ">		
 		<a class="btn rounded-0 px-3 fw-normal fs-5 py-4" href="{{ url_for('login') }}">Log in</a>
@@ -95,7 +95,7 @@
   </div>
 </nav>
 
-<nav class="navbar fixed-top navbar-expand-lg bg-white border-bottom d-lg-none">
+<nav class="navbar navbar-expand-lg bg-white border-bottom d-lg-none">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold fs-1 text-black" href="#">CoreFlow</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobile">
