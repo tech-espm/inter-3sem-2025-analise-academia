@@ -158,25 +158,27 @@ def listarDadosTempoReal():
 		print(f"Erro ao acessar o banco de dados: {e}")
 		return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
 
-def listarConsolidadoOcupacaoMaxima(data_inicial, data_final):
+def listarConsolidadoOcupacaoMaxima(data_inicial, data_final, id_sensor):
 	try:
 		with Session(engine) as sessao:
 			parametros = {
 				'data_inicial': data_inicial + ' 00:00:00',
-				'data_final': data_final + ' 23:59:59'
+				'data_final': data_final + ' 23:59:59',
+				'id_sensor': id_sensor,
 			}
 
 			registros = sessao.execute(text("""
 				select tmp.id_sensor, tmp.dia, tmp.hora, tmp.pessoas, u.pessoas ultimo_pessoas from
 				(
-					select id_sensor, date_format(date(data), '%d/%m/%Y') dia, extract(hour from data) hora, cast(max(pessoas) as signed) pessoas, cast(max(id) as signed) id_ultimo
+					select id_sensor, date_format(date(data), '%Y-%m-%d') diaISO, date_format(date(data), '%d/%m') dia, extract(hour from data) hora, cast(max(pessoas) as signed) pessoas, max(id) id_ultimo
 					from pca
 					where data between :data_inicial and :data_final
-					group by id_sensor, dia, hora
-					order by id_sensor, dia, hora
+					and id_sensor = :id_sensor
+					group by id_sensor, diaISO, dia, hora
+					order by id_sensor, diaISO, hora
 				) tmp
 				inner join pca u on u.id = tmp.id_ultimo
-			"""))
+			"""), parametros)
 			dados = []
 			for registro in registros:
 				dados.append({
@@ -184,7 +186,7 @@ def listarConsolidadoOcupacaoMaxima(data_inicial, data_final):
 					"dia": registro.dia,
 					"hora": registro.hora,
 					"pessoas": registro.pessoas,
-					"id_ultimo": registro.id_ultimo
+					"ultimo_pessoas": registro.ultimo_pessoas
 				})
 			return dados
 	except Exception as e:
@@ -205,7 +207,7 @@ def listarConsolidadoDiaMesHora(data_inicial, data_final):
 				where data between :data_inicial and :data_final
 				and id_sensor = 2
 				group by dia, hora
-			"""))
+			"""), parametros)
 			dados = []
 			for registro in registros:
 				dados.append({
@@ -227,12 +229,13 @@ def listarConsolidadoDiaMes(data_inicial, data_final):
 			}
 
 			registros = sessao.execute(text("""
-				select date_format(date(data), '%d/%m/%Y') dia, sum(entrada) entrada
+				select date_format(date(data), '%Y-%m-%d') diaISO, date_format(date(data), '%d/%m') dia, cast(sum(entrada) as signed) entrada
 				from passagem
 				where data between :data_inicial and :data_final
 				and id_sensor = 2
-				group by dia
-			"""))
+				group by diaISO, dia
+				order by diaISO
+			"""), parametros)
 			dados = []
 			for registro in registros:
 				dados.append({

@@ -128,7 +128,7 @@
 
 				for (let i = 0; i < dados.length; i++) {
 					const dado = dados[i];
-					html.push(`<tr><td class="text-center">Local ${dado.id_sensor}</td>`);
+					html.push(`<tr><td class="text-center">Zona ${dado.id_sensor}</td>`);
 
 					let n = (dado.pessoas - menor) / delta;
 					html.push(`<td class="text-center" style="${coresHeatmap(n)}">${dado.pessoas}</td>`);
