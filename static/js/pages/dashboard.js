@@ -1,112 +1,171 @@
-// Gráfico de barras - Movimentação por zona
-const zonaCtx = document.getElementById('zonaChart').getContext('2d');
-const zonaChart = new Chart(zonaCtx, {
-    type: 'bar',
-    data: {
-        labels: ['Zona 1', 'Zona 2', 'Zona 3', 'Zona 4'],
-        datasets: [{
-            label: 'Visitas',
-            data: [320, 450, 280, 198],
-            backgroundColor: [
-                'rgba(52, 152, 219, 0.7)',
-                'rgba(46, 204, 113, 0.7)',
-                'rgba(155, 89, 182, 0.7)',
-                'rgba(241, 196, 15, 0.7)'
-            ],
-            borderColor: [
-                'rgba(52, 152, 219, 1)',
-                'rgba(46, 204, 113, 1)',
-                'rgba(155, 89, 182, 1)',
-                'rgba(241, 196, 15, 1)'
-            ],
-            borderWidth: 1
-        }]
+"use strict";
+
+function format2(x) {
+    return (x < 10 ? "0" + x : x.toString());
+}
+
+$("#form").validate({
+    rules: {
+        data_inicial: { required: true },
+        data_final: { required: true }
     },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+    submitHandler: function () {
+        atualizarDados();
     }
 });
 
-// Gráfico de pizza - Distribuição por zona
-const pieCtx = document.getElementById('pieChart').getContext('2d');
-const pieChart = new Chart(pieCtx, {
-    type: 'pie',
-    data: {
-        labels: ['Zona 1 - Cardio', 'Zona 2 - Musculação', 'Zona 3 - Funcional', 'Zona 4 - Alongamento'],
-        datasets: [{
-            data: [25, 35, 20, 20],
-            backgroundColor: [
-                'rgba(52, 152, 219, 0.7)',
-                'rgba(46, 204, 113, 0.7)',
-                'rgba(155, 89, 182, 0.7)',
-                'rgba(241, 196, 15, 0.7)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
+function gerarGraficoUsoMedioZona(dados) {
+    let div = document.getElementById("div-grafico-uso-medio-zona");
+    div.innerHTML = '<canvas id="grafico-uso-medio-zona" style="height: 35vh;"></canvas>';
+
+    let labels = [];
+    let data = [];
+
+    for (let i = 0; i < dados.length; i++) {
+        labels.push("Zona " + dados[i].zona);
+        data.push(dados[i].soma_media);
+    }
+
+    new Chart(document.getElementById("grafico-uso-medio-zona"), {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Soma das Médias de Uso nos Dias do Intervalo",
+                backgroundColor: "#1cc88a",
+                borderColor: "#1cc88a",
+                data: data,
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    maxBarThickness: 40,
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+}
+
+function gerarGraficoConsolidadoDiaMes(dados) {
+    let div = document.getElementById("div-grafico-consolidado-dia-mes");
+    div.innerHTML = '<canvas id="grafico-consolidado-dia-mes" style="height: 35vh;"></canvas>';
+
+    let labels = [], data = [];
+
+    for (let i = 0; i < dados.length; i++) {
+        labels.push(dados[i].dia);
+        data.push(dados[i].entrada);
+    }
+
+    new Chart(document.getElementById("grafico-consolidado-dia-mes"), {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Entrada Total",
+                backgroundColor: "#4e73df",
+                hoverBackgroundColor: "#2e59d9",
+                borderColor: "#4e73df",
+                data: data,
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                }
+            },
+            scales: {
+                x: {
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 10
+                    },
+                    maxBarThickness: 25,
+                },
+                y: {
+                    //display: false,
+                    ticks: {
+                        min: 0,
+                        max: 10,
+                        maxTicksLimit: 10,
+                        padding: 10
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                },
+            },
             legend: {
-                position: 'bottom'
-            }
+                display: false
+            },
+            tooltips: {
+                titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                titleFontSize: 14,
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10
+            },
         }
-    }
-});
+    });
+}
 
-// Gráfico de linha - Padrão de uso por horário
-const horarioCtx = document.getElementById('horarioChart').getContext('2d');
-const horarioChart = new Chart(horarioCtx, {
-    type: 'line',
-    data: {
-        labels: ['6h', '8h', '10h', '12h', '14h', '16h', '18h', '20h', '22h'],
-        datasets: [{
-            label: 'Visitas por hora',
-            data: [30, 85, 60, 45, 55, 90, 150, 180, 70],
-            fill: false,
-            backgroundColor: 'rgba(231, 76, 60, 0.7)',
-            borderColor: 'rgba(231, 76, 60, 1)',
-            tension: 0.1
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+async function atualizarDados() {
+    waitSwal();
 
-// Gráfico de linha - Tendência de ocupação
-const tendenciaCtx = document.getElementById('tendenciaChart').getContext('2d');
-const tendenciaChart = new Chart(tendenciaCtx, {
-    type: 'line',
-    data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
-        datasets: [{
-            label: 'Taxa de ocupação (%)',
-            data: [65, 59, 70, 71, 68, 72, 75],
-            fill: false,
-            backgroundColor: 'rgba(52, 152, 219, 0.7)',
-            borderColor: 'rgba(52, 152, 219, 1)',
-            tension: 0.1
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: false,
-                min: 50,
-                max: 100
+    try {
+        let data_inicial = document.getElementById("data_inicial").value;
+        let data_final = document.getElementById("data_final").value;
+
+        let response = await fetch(`/obterDadosConsolidadoDiaMes?data_inicial=${data_inicial}&data_final=${data_final}`);
+        let respZona = await fetch(`/obterUsoMedioZona?data_inicial=${data_inicial}&data_final=${data_final}`);
+
+        if (response.ok && respZona.ok) {
+            Swal.close();
+
+            const obj = await response.json();
+            const objZona = await respZona.json();
+            if (!obj || !obj.consolidadoDiaMes || !obj.consolidadoDiaMes.length) {
+                Swal.fire("Erro", "Sem dados no período especificado!", "error");
+                return;
             }
+
+            gerarGraficoConsolidadoDiaMes(obj.consolidadoDiaMes);
+            gerarGraficoUsoMedioZona(objZona.uso_medio_zona);
+        } else {
+            await exibirErro(response);
         }
+    } catch (ex) {
+        Swal.fire("Erro", "Erro ao listar os dados: " + ex.message, "error");
     }
-});
+}
+
+atualizarDados();

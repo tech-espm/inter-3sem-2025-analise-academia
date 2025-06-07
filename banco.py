@@ -246,3 +246,30 @@ def listarConsolidadoDiaMes(data_inicial, data_final):
 	except Exception as e:
 		print(f"Erro ao acessar o banco de dados: {e}")
 		return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
+
+def listarUsoMedioZonaDia(data_inicial, data_final):
+	try:
+		with Session(engine) as sessao:
+			parametros = {
+				'data_inicial': data_inicial + ' 00:00:00',
+				'data_final': data_final + ' 23:59:59'
+			}
+
+			registros = sessao.execute(text("""
+				select id_sensor, date_format(date(data), '%Y-%m-%d') diaISO, date_format(date(data), '%d/%m/%Y') as dia, avg(pessoas) as media_pessoas
+				from pca
+				where data between :data_inicial and :data_final
+				group by diaISO, dia, id_sensor
+				order by diaISO, id_sensor;
+			"""), parametros)
+			dados = []
+			for registro in registros:
+				dados.append({
+					"zona": registro.id_sensor,
+					"dia": registro.dia,
+					"media_pessoas": float(registro.media_pessoas) if registro.media_pessoas else 0.0
+				})
+			return dados
+	except Exception as e:
+		print(f"Erro ao acessar o banco de dados: {e}")
+		return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)

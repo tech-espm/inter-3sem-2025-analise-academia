@@ -3,52 +3,39 @@
 {% block body %}
 <div class="limitador">
 
-<div class="filter-section">
-    <h1 class="lead mb-4">Visualize e analise o uso do espaço da sua academia com dados em tempo real.</h1>
-    
-    <h4 class="mb-4">Filtros de Análise</h4>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="periodo">Período</label>
-                <select class="form-control" id="periodo">
-                    <option>Últimos 7 dias</option>
-                    <option>Últimos 30 dias</option>
-                    <option>Últimos 90 dias</option>
-                    <option>Personalizado</option>
-                </select>
+<div class="container-fluid">
+	<p class="my-4" style="font-weight: bold !important; font-size: 20pt;">Visualize e analise o uso do espaço da sua academia com dados em tempo real.</h1>
+	
+	<div class="row">
+        <div class="col-md-auto mx-auto">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <form id="form">
+                        <div class="row align-items-end">
+                            <div class="col-auto">
+                                <div class="form-group mb-3">
+                                    <label for="data_inicial">Data Inicial</label>
+                                    <input id="data_inicial" name="data_inicial" class="form-control" type="date" value="{{data_inicial}}" />
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-group mb-3">
+                                    <label for="data_final">Data Final</label>
+                                    <input id="data_final" name="data_final" class="form-control" type="date" value="{{data_final}}" />
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary mb-3">Listar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="zona">Zona da Academia</label>
-                <select class="form-control" id="zona">
-                    <option>Todas as zonas</option>
-                    <option>Zona 1 - Cardio</option>
-                    <option>Zona 2 - Musculação</option>
-                    <option>Zona 3 - Funcional</option>
-                    <option>Zona 4 - Alongamento</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="horario">Horário</label>
-                <select class="form-control" id="horario">
-                    <option>Todos os horários</option>
-                    <option>Manhã (6h-12h)</option>
-                    <option>Tarde (12h-18h)</option>
-                    <option>Noite (18h-23h)</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-3 d-flex align-items-end">
-            <button class="btn btn-primary btn-block">Aplicar Filtros</button>
         </div>
     </div>
 </div>
 
-<div class="row mb-4">
+<div class="row">
     <div class="col-md-3">
         <div class="card-index text-center p-3">
             <div class="big-number-label">Total de Visitas</div>
@@ -79,53 +66,43 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="card-index">
-            <div class="card-header">
-                Movimentação por Zona (últimos 7 dias)
-            </div>
-            <div class="card-body">
-                <canvas id="zonaChart" height="250"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card-index">
-            <div class="card-header">
-                Distribuição por Zona
-            </div>
-            <div class="card-body">
-                <canvas id="pieChart" height="250"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Gráficos -->
+<div class="container-fluid">
 
-<div class="row mt-4">
-    <div class="col-md-6">
-        <div class="card-index">
+    <div class="row">
+
+        <!-- Gráfico de uso médio por zona -->
+        <div class="card shadow mb-4">
             <div class="card-header">
-                Padrão de Uso por Horário
+                Uso Médio por Zona
             </div>
-            <div class="card-body">
-                <canvas id="horarioChart" height="250"></canvas>
-            </div>
-        </div>
+		    <div class="card-body">
+			    <div id="div-grafico-uso-medio-zona"></div>
+		    </div>
+	    </div>
+
     </div>
-    <div class="col-md-6">
-        <div class="card-index">
+
+    <div class="row">
+
+        <!-- Gráfico de fluxo -->
+        <div class="card shadow mb-4">
             <div class="card-header">
-                Tendência de Ocupação
+                Fluxo de Entrada por Dia
             </div>
-            <div class="card-body">
-                <canvas id="tendenciaChart" height="250"></canvas>
-            </div>
-        </div>
+		    <div class="card-body">
+			    <div id="div-grafico-consolidado-dia-mes"></div>
+		    </div>
+	    </div>
+
     </div>
-</div>
 
 </div>
+
+<script src="/static/js/jquery-validate/jquery.validate.min.js"></script>
+<script src="/static/js/jquery-validate/additional-methods.min.js"></script>
+<script src="/static/js/jquery-validate/localization/messages_pt_BR.min.js"></script>
+<script type="text/javascript" src="/static/js/chart.js/chart.min.js"></script>
 <script type="text/javascript" src="/static/js/pages/dashboard.js"></script>
 
 {% endblock %}

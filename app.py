@@ -3,13 +3,9 @@ import config
 import requests
 from datetime import datetime, timedelta
 import banco
+from math import ceil
 
 app = Flask(__name__)
-
-@app.get('/dashboard')
-def dashboard():
-    hoje = datetime.today().strftime('%Y-%m-%d')
-    return render_template('index/dashboard.html', hoje=hoje)
 
 @app.get('/')
 def index():
@@ -42,11 +38,11 @@ def consolidado():
     data_final = datetime.today().strftime('%Y-%m-%d')
     return render_template('index/consolidado.html', titulo="Consolidado", data_inicial=data_inicial, data_final=data_final)
 
-@app.get('/graficos')
-def graficos():
-    data_inicial = (datetime.today() + timedelta(days=-19)).strftime('%Y-%m-%d')
+@app.get('/dashboard')
+def dashboard():
+    data_inicial = (datetime.today() + timedelta(days=-7)).strftime('%Y-%m-%d')
     data_final = datetime.today().strftime('%Y-%m-%d')
-    return render_template('index/graficos.html', titulo="Gráficos", data_inicial=data_inicial, data_final=data_final)
+    return render_template('index/dashboard.html', titulo="Dashboard", data_inicial=data_inicial, data_final=data_final)
 
 @app.route("/obterDadosConsolidadoOcupacaoMaxima")
 def obterDadosConsolidadoOcupacaoMaxima():
@@ -96,6 +92,35 @@ def obterDadosConsolidadoDiaMes():
     return json.jsonify({
         'consolidadoDiaMes': consolidadoDiaMes,
     })
+    
+@app.route("/obterUsoMedioZona")
+def obterUsoMedioZona():
+
+    data_inicial = request.args.get('data_inicial')
+    data_final = request.args.get('data_final')
+
+    if not data_inicial or not data_final:
+        return json.jsonify({"erro": "Parâmetros obrigatórios não informados"}), 400
+
+    dados = banco.listarUsoMedioZonaDia(data_inicial, data_final)
+    # Soma das médias por zona
+    zonas = {}
+    for registro in dados:
+        zona = int(registro["zona"])
+        media = float(registro["media_pessoas"])
+        if zona not in zonas:
+            zonas[zona] = 0
+        zonas[zona] += ceil(media)  # arredondar para cima
+
+    # Garante 8 zonas (1 a 8)
+    resultado = []
+    for i in range(1, 9):
+        resultado.append({
+            "zona": i,
+            "soma_media": zonas.get(i, 0)
+        })
+
+    return json.jsonify({"uso_medio_zona": resultado})
 
 @app.get('/obterTempoReal')
 def obterTempoReal():
