@@ -6,15 +6,15 @@
   style="min-height: 80vh; background-color: #F0F0F0;">
   <div class="hero-text">
     <h1 class="display-1 text-dark mb-4">
-      Turn movement into decisions
+      Transforme movimentos em decisões
     </h1>
     <p class="fs-4">
-      Know exactly how people use your space.<br>
-      Understand their behavior, preferences, and patterns.
+      Saiba exatamente como o cliente usa seu espaço.<br>
+      Entenda seus comportamentos, preferências e padrões.
     </p>
     <div class="d-flex gap-3 justify-content-center mt-4">
-      <a href="#" class="btn btn-dark rounded-0 px-4 py-3">Start Analysis</a>
-      <a href="#" class="btn btn-outline-dark rounded-0 px-4 py-3">Learn More</a>
+      <a href="{{ url_for("dashboard") }}" class="btn btn-dark rounded-0 px-4 py-3">Análises</a>
+      <a href="{{ url_for("sobre") }}" class="btn btn-outline-dark rounded-0 px-4 py-3">Saiba Mais</a>
     </div>
   </div>
 
@@ -33,19 +33,19 @@
     <div class="col-12">
       <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10 col-sm-12 text-center">
-          <h2 class="display-4 pt-5 mt-5 mb-4">Why Choose Us?</h2>
+          <h2 class="display-4 pt-5 mt-5 mb-4">Por que nos escolher?</h2>
           <p class="fs-4 mb-5">
-            Our platform provides real-time insights into how people interact with your space, enabling you to make
-            data-driven decisions that enhance user experience, optimize operations and saves your money.
 
-            <br><br>
-            ainda vou decidir ficar qual texto ficará
-            <br><br>
-            We made a new way to see if your space is being used effectively. Our platform uses advanced analytics to
-            track
-            and understand how people move and behave in your space. This means you can see what works, what doesn't,
-            and
-            how to make things better.
+            Nossa plataforma fornece insights em tempo real sobre como as pessoas interagem com seu espaço,
+            possibilitando decisões embasadas em dados que melhoram a experiência do usuário, otimizam operações
+            e economizam seu dinheiro.
+
+            <!-- 
+            Nós criamos uma nova forma de descobrir se o seu espaço está sendo utilizado de forma efetiva. Nossa plataforma 
+            usa análises avançadas para rastrear e entender como as pessoas se movem e agem no seu espaço. Isso significa que
+            você pode ver o que funciona e o que não, além de como fazer as coisas melhor.
+            -->
+            
           </p>
         </div>
       </div>
@@ -59,24 +59,24 @@
       <div
         class="col-lg-6 m-0 py-5 px-5 bg-dark text-white d-flex flex-column  justify-content-center align-items-center">
         <div>
-          <h3 class="display-5 mb-2 mt-5">Real-time Insights</h3>
+          <h3 class="display-5 mb-2 mt-5">Insights em Tempo Real</h3>
           <p class="fs-4 mb-4">
-            Get immediate feedback on how people use your space, allowing you to adapt and improve continuously.
+            Receba feedback imediato sobre como as pessoas utilizam seu espaço, habilitando você a se adaptar e melhorar continuamente.
           </p>
         </div>
         <div>
-          <h3 class="display-5 mb-2 mt-5">Easy Integration</h3>
+          <h3 class="display-5 mb-2 mt-5">Integração Fácil</h3>
           <p class="fs-4 mb-4">
-            The platform integrates with your existing systems, making it easy to start analyzing data without
-            disruption.
+            A plataforma integra com sistemas já existentes, tornando possível começar as análises de dados sem 
+            perturbação.
           </p>
         </div>
 
         <div>
-          <h3 class="display-5 mb-2 mt-5">Scalable Solutions</h3>
+          <h3 class="display-5 mb-2 mt-5">Soluções Escaláveis</h3>  
           <p class="fs-4 mb-4">
-            Our analytics solutions are designed to grow with you.
-            Whether you manage a small space or a large complex, our solutions scale to meet your needs.
+            Nossas soluções analíticas foram projetadas para crescer com você.
+            Seja na gestão de um pequeno espaço ou de um grande complexo, nossas soluções se adaptam às suas necessidades.
           </p>
         </div>
 
@@ -101,8 +101,8 @@
     <div class="col-12">
       <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10 col-sm-12 text-center my-5">
-          <h2 class="display-4 pb-3">It's time to make the right decisions <br> with the right data</h2>
-          <a href="#" class="fw-bold fs-3 underline-grow">Start analysis →</a>
+          <h2 class="display-4 pb-3">É hora de tomar as decisões certas <br> com os dados corretos</h2>
+          <a href="{{ url_for("dashboard") }}" class="fw-bold fs-3 underline-grow">Começar Análises →</a>
 
         </div>
       </div>
