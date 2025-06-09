@@ -122,6 +122,27 @@ def obterUsoMedioZona():
 
     return json.jsonify({"uso_medio_zona": resultado})
 
+@app.route("/obterUsoMedioHora")
+def obterUsoMedioHora():
+
+    data_inicial = request.args.get('data_inicial')
+    data_final = request.args.get('data_final')
+
+    if not data_inicial or not data_final:
+        return json.jsonify({"erro": "Parâmetros obrigatórios não informados"}), 400
+
+    dados = banco.listarUsoMedioHora(data_inicial, data_final)
+
+    horas = {}
+    for x in dados:
+        horas[x["hora"]] = float(x["media_pessoas"])
+
+    for i in range(0, 24):
+        if i not in horas:
+            horas[i] = 0
+
+    return json.jsonify({"uso_medio_hora": horas})
+
 @app.get('/obterTempoReal')
 def obterTempoReal():
     # Obter o maior id do banco

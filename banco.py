@@ -167,6 +167,7 @@ def listarConsolidadoOcupacaoMaxima(data_inicial, data_final, id_sensor):
 				'id_sensor': id_sensor,
 			}
 
+
 			registros = sessao.execute(text("""
 				select tmp.id_sensor, tmp.dia, tmp.hora, tmp.pessoas, u.pessoas ultimo_pessoas from
 				(
@@ -273,3 +274,31 @@ def listarUsoMedioZonaDia(data_inicial, data_final):
 	except Exception as e:
 		print(f"Erro ao acessar o banco de dados: {e}")
 		return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
+
+def listarUsoMedioHora(data_inicial, data_final):
+	try:
+		with Session(engine) as sessao:
+			parametros = {
+				'data_inicial': data_inicial + ' 00:00:00',
+				'data_final': data_final + ' 23:59:59'
+			}
+
+			registros = sessao.execute(text("""
+				select hour(data) as hora, avg(pessoas) as media_pessoas
+				from pca
+				where data between :data_inicial and :data_final
+				group by hour(data)
+				order by hora;
+			"""), parametros)
+			dados = []
+			for registro in registros:
+				dados.append({
+					"hora": registro.hora,
+					"media_pessoas": float(registro.media_pessoas) if registro.media_pessoas else 0.0
+				})
+			return dados
+	except Exception as e:
+		print(f"Erro ao acessar o banco de dados: {e}")
+		return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
+
+

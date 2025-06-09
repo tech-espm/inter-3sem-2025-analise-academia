@@ -57,6 +57,49 @@ function gerarGraficoUsoMedioZona(dados) {
     });
 }
 
+function gerarGraficoUsoMedioHora(dados) {
+    let div = document.getElementById("div-grafico-uso-medio-hora");
+    div.innerHTML = '<canvas id="grafico-uso-medio-hora" style="height: 35vh;"></canvas>';
+
+    let labels = [];
+    let data = [];
+
+    for (let item in dados) {
+        labels.push(item + ":00");
+        data.push(dados[item]);
+    }
+
+    new Chart(document.getElementById("grafico-uso-medio-hora"), {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Média de Pessoas",
+                backgroundColor: "#ffc900",
+                borderColor: "#ffc900",
+                data: data,
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    maxBarThickness: 40,
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+}
+
 function gerarGraficoConsolidadoDiaMes(dados) {
     let div = document.getElementById("div-grafico-consolidado-dia-mes");
     div.innerHTML = '<canvas id="grafico-consolidado-dia-mes" style="height: 35vh;"></canvas>';
@@ -147,12 +190,14 @@ async function atualizarDados() {
 
         let response = await fetch(`/obterDadosConsolidadoDiaMes?data_inicial=${data_inicial}&data_final=${data_final}`);
         let respZona = await fetch(`/obterUsoMedioZona?data_inicial=${data_inicial}&data_final=${data_final}`);
+        let respHora = await fetch(`/obterUsoMedioHora?data_inicial=${data_inicial}&data_final=${data_final}`);
 
-        if (response.ok && respZona.ok) {
+        if (response.ok && respZona.ok && respHora.ok) {
             Swal.close();
 
             const obj = await response.json();
             const objZona = await respZona.json();
+            const objHora = await respHora.json();
             if (!obj || !obj.consolidadoDiaMes || !obj.consolidadoDiaMes.length) {
                 Swal.fire("Erro", "Sem dados no período especificado!", "error");
                 return;
@@ -160,8 +205,9 @@ async function atualizarDados() {
 
             gerarGraficoConsolidadoDiaMes(obj.consolidadoDiaMes);
             gerarGraficoUsoMedioZona(objZona.uso_medio_zona);
+            gerarGraficoUsoMedioHora(objHora.uso_medio_hora)
         } else {
-            await exibirErro(response);
+            await exibirErro(respHora);
         }
     } catch (ex) {
         Swal.fire("Erro", "Erro ao listar os dados: " + ex.message, "error");
