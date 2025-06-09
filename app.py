@@ -40,7 +40,7 @@ def consolidado():
 
 @app.get('/dashboard')
 def dashboard():
-    data_inicial = (datetime.today() + timedelta(days=-7)).strftime('%Y-%m-%d')
+    data_inicial = (datetime.today() + timedelta(days=-30)).strftime('%Y-%m-%d')
     data_final = datetime.today().strftime('%Y-%m-%d')
     return render_template('index/dashboard.html', titulo="Dashboard", data_inicial=data_inicial, data_final=data_final)
 
@@ -110,7 +110,7 @@ def obterUsoMedioZona():
         media = float(registro["media_pessoas"])
         if zona not in zonas:
             zonas[zona] = 0
-        zonas[zona] += ceil(media)  # arredondar para cima
+        zonas[zona] += media  
 
     # Garante 8 zonas (1 a 8)
     resultado = []
@@ -137,9 +137,12 @@ def obterUsoMedioHora():
     for x in dados:
         horas[x["hora"]] = float(x["media_pessoas"])
 
+    ultimo_valor = 0
     for i in range(0, 24):
+        if i in horas:
+            ultimo_valor = horas[i]
         if i not in horas:
-            horas[i] = 0
+            horas[i] = ultimo_valor
 
     return json.jsonify({"uso_medio_hora": horas})
 

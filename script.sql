@@ -100,7 +100,7 @@ from (select max(pessoas) as pessoas, date_format(date(data), '%Y/%m/%d') dia, e
   group by hora
   order by hora;
 
--- Média de pessoas por zona no período
+-- Média de pessoas por zona no período em horário comercial
 
   select id_sensor, cast(avg(pessoas) as float) pessoas
 	from pca
