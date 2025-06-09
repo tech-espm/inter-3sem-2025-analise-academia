@@ -88,3 +88,21 @@ from passagem
 where data between '2025-03-03 00:00:00' and '2025-03-14 23:59:59'
 and id_sensor = 2
 group by dia;
+
+
+queries lascadas
+-- select avg(pessoas), hora
+-- from (select sum(pessoas) as pessoas, extract(hour from data) hora, date_format(date(data), '%d/%m/%Y') dia
+--         from pca
+--         where data between '2025-03-03 00:00:00' and '2025-03-14 23:59:59'
+--         group by dia, hora
+--         order by dia, hora);
+-- group by hora,dia;
+
+
+
+-- select pessoas, dia, hora
+-- from (select date_format(date(data), '%d/%m/%Y') dia, extract(hour from data) hora, avg(pessoas) from pca
+--         where data between '2025-03-03 00:00:00' and '2025-03-14 23:59:59'
+--         group by dia, hora
+--         order by dia, hora) tmp;
