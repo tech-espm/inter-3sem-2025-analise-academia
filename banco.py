@@ -257,11 +257,10 @@ def listarUsoMedioZonaDia(data_inicial, data_final):
 			}
 
 			registros = sessao.execute(text("""
-				select id_sensor, date_format(date(data), '%Y-%m-%d') diaISO, date_format(date(data), '%d/%m/%Y') as dia, avg(pessoas) as media_pessoas
+				select id_sensor, avg(pessoas)
 				from pca
-				where data between :data_inicial and :data_final
-				group by diaISO, dia, id_sensor
-				order by diaISO, id_sensor;
+    			where extract(hour from data) > 6 and data between '2025-03-03 00:00:00' and '2025-03-14 23:59:59'
+    			group by id_sensor;
 			"""), parametros)
 			dados = []
 			for registro in registros:
