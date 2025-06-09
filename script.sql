@@ -92,7 +92,7 @@ group by dia;
 
 -- Média do pico de pessoas por hora no período 
 
-select avg(tmp.pessoas), tmp.hora
+select cast(avg(tmp.pessoas) as float) pessoas, tmp.hora
 from (select max(pessoas) as pessoas, date_format(date(data), '%Y/%m/%d') dia, extract(hour from data) hora
   from pca
   where data between '2025-03-03 00:00:00' and '2025-03-14 23:59:59'
@@ -102,7 +102,7 @@ from (select max(pessoas) as pessoas, date_format(date(data), '%Y/%m/%d') dia, e
 
 -- Média de pessoas por zona no período
 
-  select id_sensor, avg(pessoas)
+  select id_sensor, cast(avg(pessoas) as float) pessoas
 	from pca
-    where extract(hour from data) > 6 and data between '2025-03-03 00:00:00' and '2025-03-14 23:59:59'
+    where extract(hour from data) between 6 and 21 and data between '2025-03-03 00:00:00' and '2025-03-14 23:59:59'
     group by id_sensor;
