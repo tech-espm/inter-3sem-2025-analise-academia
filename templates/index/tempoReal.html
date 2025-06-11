@@ -10,6 +10,25 @@
 		background-attachment: fixed;
 	}
 
+	.zonas-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-gap: 15px;
+		padding: 10px;
+	}
+
+	.zona-bloco {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border-radius: 12px;
+		padding: 20px;
+		text-align: center;
+		font-weight: bold;
+		transition: background-color 0.3s ease;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	}
 </style>
 {% endblock %}
 
@@ -17,11 +36,11 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-6 offset-md-3">
+		<div class="col-md-8 offset-md-2">
 			<div class="card shadow my-4">
 				<div class="card-body">
 					<div id="div-heatmap"></div>
-					<div class="text-center">
+					<div class="text-center mt-3">
 						<label for="chkRandom"><input type="checkbox" id="chkRandom" /> Simular Dados Aleatórios</label>
 					</div>
 				</div>
@@ -39,14 +58,12 @@
 		rgb |= 0;
 		if (rgb < 0)
 			return 1;
-		//http://www.w3.org/TR/2007/WD-WCAG20-TECHS-20070517/Overview.html#G18
-		var RsRGB = ((rgb >>> 16) & 0xff) / 255.0,
+		let RsRGB = ((rgb >>> 16) & 0xff) / 255.0,
 			GsRGB = ((rgb >>> 8) & 0xff) / 255.0,
-			BsRGB = (rgb & 0xff) / 255.0,
-			R, G, B;
-		if (RsRGB <= 0.03928) R = RsRGB / 12.92; else R = Math.pow((RsRGB + 0.055) / 1.055, 2.4);
-		if (GsRGB <= 0.03928) G = GsRGB / 12.92; else G = Math.pow((GsRGB + 0.055) / 1.055, 2.4);
-		if (BsRGB <= 0.03928) B = BsRGB / 12.92; else B = Math.pow((BsRGB + 0.055) / 1.055, 2.4);
+			BsRGB = (rgb & 0xff) / 255.0;
+		let R = RsRGB <= 0.03928 ? RsRGB / 12.92 : Math.pow((RsRGB + 0.055) / 1.055, 2.4);
+		let G = GsRGB <= 0.03928 ? GsRGB / 12.92 : Math.pow((GsRGB + 0.055) / 1.055, 2.4);
+		let B = BsRGB <= 0.03928 ? BsRGB / 12.92 : Math.pow((BsRGB + 0.055) / 1.055, 2.4);
 		return (0.2126 * R) + (0.7152 * G) + (0.0722 * B);
 	}
 
@@ -55,12 +72,8 @@
 	}
 
 	function coresHeatmap(perc) {
-		const r0 = 0xff;
-		const g0 = 0xff;
-		const b0 = 0xff;
-		const r1 = 0xff;
-		const g1 = 0xcc;
-		const b1 = 0x00;
+		const r0 = 0xff, g0 = 0xff, b0 = 0xff;
+		const r1 = 0xff, g1 = 0xcc, b1 = 0x00;
 		let r = Math.max(0, Math.min(255, ((perc * r1) + ((1 - perc) * r0)) | 0)).toString(16);
 		let g = Math.max(0, Math.min(255, ((perc * g1) + ((1 - perc) * g0)) | 0)).toString(16);
 		let b = Math.max(0, Math.min(255, ((perc * b1) + ((1 - perc) * b0)) | 0)).toString(16);
@@ -89,54 +102,41 @@
 					return;
 				}
 
-				const colunas = ["Local", "Pessoas", "Última Alteração"];
-
 				const agora = new Date();
-
 				let html = [`
-				<h1 class="text-center mb-3">Atualizado às ${format2(agora.getHours())}:${format2(agora.getMinutes())}:${format2(agora.getSeconds())}</h1>
-				<table class="table table-bordered table-sm mx-auto" style="height: auto; line-height: 1.2;"><thead><tr>
+					<h1 class="text-center mb-3">Atualizado às ${format2(agora.getHours())}:${format2(agora.getMinutes())}:${format2(agora.getSeconds())}</h1>
+					<div class="zonas-grid">
 				`];
-				for (let i = 0; i < colunas.length; i++) {
-					html.push(`<th class="text-center">${colunas[i]}</th>`);
-				}
-
-				html.push(`
-					</tr>
-					</thead>
-					<tbody>
-				`);
 
 				const random = document.getElementById("chkRandom").checked;
-				if (random)
-					dados[0].pessoas += ((Math.random() * 20) | 0);
+				if (random) dados[0].pessoas += ((Math.random() * 20) | 0);
 
 				let menor = dados[0].pessoas;
 				let maior = menor;
 
 				for (let i = 1; i < dados.length; i++) {
 					const dado = dados[i];
-					if (random)
-						dado.pessoas += (Math.random() * 20) | 0;
-					if (menor > dado.pessoas)
-						menor = dado.pessoas;
-					if (maior < dado.pessoas)
-						maior = dado.pessoas;
+					if (random) dado.pessoas += (Math.random() * 20) | 0;
+					if (menor > dado.pessoas) menor = dado.pessoas;
+					if (maior < dado.pessoas) maior = dado.pessoas;
 				}
 
 				let delta = (maior - menor) || 1;
 
 				for (let i = 0; i < dados.length; i++) {
 					const dado = dados[i];
-					html.push(`<tr><td class="text-center">Zona ${dado.id_sensor}</td>`);
-
 					let n = (dado.pessoas - menor) / delta;
-					html.push(`<td class="text-center" style="${coresHeatmap(n)}">${dado.pessoas}</td>`);
+					let estilo = coresHeatmap(n);
 
-					html.push(`<td class="text-center">${dado.data}</td></tr>`);
+					html.push(`
+						<div class="zona-bloco" style="${estilo}">
+							<div>Zona ${dado.id_sensor}</div>
+							<div>${dado.pessoas} pessoas</div>
+						</div>
+					`);
 				}
 
-				html.push(`</tbody></table>`);
+				html.push(`</div>`);
 				document.getElementById("div-heatmap").innerHTML = html.join('');
 
 			} else {
@@ -150,7 +150,6 @@
 	}
 
 	waitSwal();
-
 	atualizarDados();
 </script>
 
