@@ -31,7 +31,7 @@ function gerarGraficoUsoMedioZona(dados) {
         data: {
             labels: labels,
             datasets: [{
-                label: "Soma das Médias de Uso nos Dias do Intervalo",
+                label: "Média de Uso nos Dias do Intervalo",
                 backgroundColor: "#1cc88a",
                 borderColor: "#1cc88a",
                 data: data,
@@ -74,7 +74,7 @@ function gerarGraficoUsoMedioHora(dados) {
         data: {
             labels: labels,
             datasets: [{
-                label: "Média de Pessoas",
+                label: "Média do Pico de Pessoas no Intervalo",
                 backgroundColor: "#ffc900",
                 borderColor: "#ffc900",
                 data: data,
@@ -198,10 +198,50 @@ async function atualizarDados() {
             const obj = await response.json();
             const objZona = await respZona.json();
             const objHora = await respHora.json();
+
             if (!obj || !obj.consolidadoDiaMes || !obj.consolidadoDiaMes.length) {
                 Swal.fire("Erro", "Sem dados no período especificado!", "error");
                 return;
             }
+            
+            // Atualizando Grandes Números
+
+            let totalVisitas = 0;
+            if (obj && obj.consolidadoDiaMes) {
+                for (let i = 0; i < obj.consolidadoDiaMes.length; i++) {
+                    totalVisitas += obj.consolidadoDiaMes[i].entrada || 0;
+                }
+            }
+            document.getElementById("big-total-visitas").innerText = totalVisitas;
+
+            let zonaMaisMovimentada = "-";
+            if (objZona && objZona.uso_medio_zona && objZona.uso_medio_zona.length) {
+                let maxZona = objZona.uso_medio_zona[0];
+                for (let i = 1; i < objZona.uso_medio_zona.length; i++) {
+                    if (objZona.uso_medio_zona[i].soma_media > maxZona.soma_media) {
+                        maxZona = objZona.uso_medio_zona[i];
+                    }
+                }
+                zonaMaisMovimentada = "Zona " + maxZona.zona;
+            }
+            document.getElementById("big-zona-mais-movimentada").innerText = zonaMaisMovimentada;
+
+            let horarioPico = "-";
+            if (objHora && objHora.uso_medio_hora) {
+                let max = -1, maxHora = "";
+                for (let hora in objHora.uso_medio_hora) {
+                    if (objHora.uso_medio_hora[hora] > max) {
+                        max = objHora.uso_medio_hora[hora];
+                        maxHora = hora;
+                    }
+                }
+                if (maxHora !== "") {
+                    horarioPico = maxHora + "h";
+                }
+            }
+            document.getElementById("big-horario-pico").innerText = horarioPico;
+
+            // Gerando Gráficos
 
             gerarGraficoConsolidadoDiaMes(obj.consolidadoDiaMes);
             gerarGraficoUsoMedioZona(objZona.uso_medio_zona);

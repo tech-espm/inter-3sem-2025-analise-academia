@@ -257,18 +257,16 @@ def listarUsoMedioZonaDia(data_inicial, data_final):
 			}
 
 			registros = sessao.execute(text("""
-				select id_sensor, date_format(date(data), '%Y-%m-%d') diaISO, date_format(date(data), '%d/%m/%Y') as dia, avg(pessoas) as media_pessoas
+				select id_sensor, cast(avg(pessoas) as float) pessoas
 				from pca
-				where data between :data_inicial and :data_final
-				group by diaISO, dia, id_sensor
-				order by diaISO, id_sensor;
+    			where extract(hour from data) between 6 and 21 and data between :data_inicial and :data_final
+    			group by id_sensor;
 			"""), parametros)
 			dados = []
 			for registro in registros:
 				dados.append({
 					"zona": registro.id_sensor,
-					"dia": registro.dia,
-					"media_pessoas": float(registro.media_pessoas) if registro.media_pessoas else 0.0
+					"media_pessoas": format(registro.pessoas, ".2f") if registro.pessoas else 0.0
 				})
 			return dados
 	except Exception as e:
@@ -284,17 +282,19 @@ def listarUsoMedioHora(data_inicial, data_final):
 			}
 
 			registros = sessao.execute(text("""
-				select hour(data) as hora, avg(pessoas) as media_pessoas
-				from pca
-				where data between :data_inicial and :data_final
-				group by hour(data)
-				order by hora;
+				select cast(avg(tmp.pessoas) as float) pessoas, tmp.hora
+					from (select max(pessoas) as pessoas, date_format(date(data), '%Y/%m/%d') dia, extract(hour from data) hora
+  						from pca
+  						where data between :data_inicial and :data_final
+  						group by dia,hora) tmp
+  					group by hora
+  					order by hora;
 			"""), parametros)
 			dados = []
 			for registro in registros:
 				dados.append({
 					"hora": registro.hora,
-					"media_pessoas": float(registro.media_pessoas) if registro.media_pessoas else 0.0
+					"media_pessoas": format(registro.pessoas, ".2f") if registro.pessoas else 0.0
 				})
 			return dados
 	except Exception as e:
