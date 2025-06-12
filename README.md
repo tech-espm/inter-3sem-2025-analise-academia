@@ -64,17 +64,5 @@ Este projeto é licenciado sob a [MIT License](https://github.com/tech-espm/inte
     <a href="https://www.espm.br/cursos-de-graduacao/sistemas-de-informacao/"><img src="https://raw.githubusercontent.com/tech-espm/misc-template/main/logo-si-512.png" alt="Sistemas de Informação ESPM" style="width: 375px;"/></a>
 </p>
 
-
-flask --app app run --debug --reload
-
-
-docker run -d --name academia-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=academia -v mysql_data:/var/lib/mysql -p 3306:3306 mysql:8.0
-
-
-
-sass --watch static/scss/bootstrap.scss static/css/bootstrap.css 
-
-fontes
-https://www.allfreefonts.co/abc-favorit-font/
 https://seankanedesign.gumroad.com/l/sk-modernist
 https://fontshare.com/ -- satoshi
